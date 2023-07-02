@@ -13,6 +13,9 @@ const themeModal = document.querySelector('.customize-theme');
 const fontSizes = document.querySelectorAll('.choose-size span');
 var root = document.querySelector(':root');
 const colorPalette = document.querySelectorAll('.choose-color span');
+const Bg1 = document.querySelector('.bg-1');
+const Bg2 = document.querySelector('.bg-2');
+const Bg3 = document.querySelector('.bg-3');
 
 // ========== ( SIDEBAR ) ========== //
 
@@ -123,10 +126,18 @@ fontSizes.forEach(size => {
 
 })
 
+// Remover classe active das colors
+const changeActiveColorClass = () => {
+    colorPalette.forEach(colorPicker => {
+        colorPicker.classList.remove('active');
+    })
+}
+
 // Alterar cores primárias
 colorPalette.forEach(color => {
     color.addEventListener('click', () => {
         let primary;
+        changeActiveColorClass();
 
         if (color.classList.contains('color-1')) {
             primaryHue = 252;
@@ -139,7 +150,57 @@ colorPalette.forEach(color => {
         } else if (color.classList.contains('color-5')) {
             primaryHue = 202;
         }
+        color.classList.add('active');
 
         root.style.setProperty('--primary-color-hue', primaryHue);
     })
+})
+
+
+// Alterar cores dos temas do BACKGROUND
+let lightColorLightness;
+let whiteColorLightness;
+let darkColorLightness;
+
+// Alterar cor do BACKGROUND
+const changeBG = () => {
+    root.style.setProperty('--light-color-lightness', lightColorLightness);
+    root.style.setProperty('--white-color-lightness', whiteColorLightness);
+    root.style.setProperty('--dark-color-lightness', darkColorLightness);
+}
+
+Bg1.addEventListener('click', () => {
+    // adicionar classe active
+    Bg1.classList.add('active');
+    // Remover classe active
+    Bg2.classList.remove('active');
+    Bg3.classList.remove('active');
+    // Remover configurações salvas no local storage
+    window.location.reload();
+})
+
+Bg2.addEventListener('click', () => {
+    darkColorLightness = '95%';
+    whiteColorLightness = '20%';
+    lightColorLightness = '15%';
+
+    // adicionar classe active
+    Bg2.classList.add('active');
+    // Remover classe active
+    Bg1.classList.remove('active');
+    Bg3.classList.remove('active');
+    changeBG();
+})
+
+Bg3.addEventListener('click', () => {
+    darkColorLightness = '95%';
+    whiteColorLightness = '20%';
+    lightColorLightness = '0%';
+
+    // adicionar classe active
+    Bg3.classList.add('active');
+    // Remover classe active
+    Bg1.classList.remove('active');
+    Bg2.classList.remove('active');
+    changeBG();
 })
